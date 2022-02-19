@@ -2,7 +2,7 @@ import nodemailer from 'nodemailer';
 
 let transporter: any;
 const sendEmail = async (email: string, subject: string, message: string) => {
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === 'developement') {
     transporter = nodemailer.createTransport({
       host: 'smtp-mail.outlook.com',
       port: 587,
@@ -11,7 +11,7 @@ const sendEmail = async (email: string, subject: string, message: string) => {
         pass: process.env.OUTLOOK_PASSWORD,
       },
     });
-  } else if (process.env.NODE_ENV === 'development') {
+  } else if (process.env.NODE_ENV === 'production') {
     transporter = nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
       port: 2525,
