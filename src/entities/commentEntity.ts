@@ -1,30 +1,24 @@
-import {
-    Entity,
-    Column,
-    PrimaryGeneratedColumn,
-    CreateDateColumn,
-    ManyToOne,
-  } from "typeorm";
-  import { User } from "./userEntity";;
-  import { Twit } from "./twitEntity";
-  
-  @Entity()
-  export class Comment {
-    @PrimaryGeneratedColumn()
-    id: number;
-  
-    @Column()
-    comment: string;
-  
-    @ManyToOne(() => User, user => user)
-    user: number;
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne } from 'typeorm';
+import { User } from './userEntity';
+import { Twit } from './twitEntity';
 
-    @ManyToOne(() => Twit, twit => twit)
-    twit: number;
-  
-    @CreateDateColumn({
-      type: "timestamp",
-      default: () => "CURRENT_TIMESTAMP(6)",
-    })
-    public created_at: Date;
-  }
+@Entity()
+export class Comment {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
+  comment: string;
+
+  @ManyToOne(() => User, (user) => user)
+  user: number;
+
+  @ManyToOne(() => Twit, (twit) => twit)
+  twit: number;
+
+  @CreateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+  })
+  public created_at: Date;
+}

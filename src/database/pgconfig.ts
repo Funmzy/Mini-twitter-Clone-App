@@ -1,13 +1,12 @@
 import { ConnectionOptions } from 'typeorm';
 import dotenv from 'dotenv';
-import {User} from  '../entities/userEntity'
-import {Twit} from '../entities/twitEntity'
-import {Comment} from '../entities/commentEntity'
-import {Like} from '../entities/likeEntity'
+import { User } from '../entities/userEntity';
+import { Twit } from '../entities/twitEntity';
+import { Comment } from '../entities/commentEntity';
+import { Like } from '../entities/likeEntity';
 
 dotenv.config();
 
-// console.log(`${__dirname}/../entities/*.js`)
 
 const pgconfig: ConnectionOptions = {
   type: 'postgres',
@@ -19,7 +18,7 @@ const pgconfig: ConnectionOptions = {
   entities: [User, Twit, Comment, Like],
   migrations: ['migration/*.js'],
   cli: { migrationsDir: 'migration' },
-//   ssl: { rejectUnauthorized: false }, 
+    ssl: { rejectUnauthorized: false },
   // syncronize: true, 'src/entity/*.ts', './build/src/entity/*.js'
 };
 

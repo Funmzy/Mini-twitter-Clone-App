@@ -17,7 +17,8 @@ const generateToken = (userId: number, email: string) => {
 export const signup = catchAsync(async (req: Request, res: Response) => {
   const password = await bcrypt.hash(req.body.password, 12);
   const email = req.body.email;
-  const name = email.replace(/@.*$/, '');
+  let name = email.replace(/@.*$/, '');
+  const init = name.replace(name.charAt(0), name.charAt(0).toUpperCase());
 
   const data = await getConnection()
     .createQueryBuilder()
@@ -25,7 +26,7 @@ export const signup = catchAsync(async (req: Request, res: Response) => {
     .into(User)
     .values([
       {
-        name: name,
+        name: init,
         email: req.body.email,
         password: password,
       },
@@ -57,6 +58,7 @@ export const signup = catchAsync(async (req: Request, res: Response) => {
 export const login = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
   const user = await getRepository(User)
     .createQueryBuilder('user')
+    .addSelect('user.password')
     .where('user.email = :email', { email: req.body.email })
     .getOne();
 
@@ -79,35 +81,22 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
   });
 });
 
+export const protectRoute = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+  let token: string | undefined;
+  if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+    token = req.headers.authorization.split(' ')[1];
+  }
 
-export const protectRoute =catchAsync( async (req: Request, res: Response, next: NextFunction) => {
-  
-    let token: string | undefined;
-    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
-      token = req.headers.authorization.split(' ')[1];
-    }
+  if (!token) {
+    return next(new ErrorHandler(401, 'You are not authorized! 🚨'));
+  }
 
-    if (!token) {
-        return next(new ErrorHandler(401, 'You are not authorized! 🚨'));
-    }
+  const decodedToken: any = jwt.verify(token as string, process.env.JWT_SECRET_KEY as string);
+  const data = await getRepository(User)
+    .createQueryBuilder('user')
+    .where('user.email = :email', { email: decodedToken.email })
+    .getOne();
+  req.user = data;
 
-    const decodedToken: any = jwt.verify(token as string, process.env.JWT_SECRET_KEY as string);
-    const data = await getRepository(User)
-      .createQueryBuilder('user')
-      .where('user.email = :email', { email: decodedToken.email })
-      .getOne();
-    req.user = data;
-
-    next();
-  
-});
-
-export const logout = catchAsync( async (req: Request, res: Response) => {
-    
-      res.cookie("token", "logout", {
-        httpOnly: true,
-        expires: new Date(Date.now() + 1000),
-      });
-      res.status(200).json({ msg: "user logged out!" });
-    
+  next();
 });

@@ -20,18 +20,17 @@ export const validateLogin = (user: ILogin) => {
 };
 
 export const validateTwit = (twit: ITwit) => {
-    const schema = Joi.object({
-      id: Joi.number(),
-      twit: Joi.string().min(1).required(),
-    });
-    return schema.validate(twit);
-  };
+  const schema = Joi.object({
+    id: Joi.number(),
+    twit: Joi.string().min(1).required(),
+  });
+  return schema.validate(twit);
+};
 
-
-  export const validateComment = (comment: IComment) => {
-    const schema = Joi.object({
-      id: Joi.number(),
-      comment: Joi.string().min(1).required(),
-    });
-    return schema.validate(comment);
-  };
+export const validateComment = (comment: IComment) => {
+  const schema = Joi.object({
+    id: Joi.number(),
+    comment: Joi.string().min(1).required(),
+  });
+  return schema.validate(comment);
+};
