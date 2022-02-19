@@ -4,7 +4,7 @@ let transporter: any;
 const sendEmail = async (email: string, subject: string, message: string) => {
   if (process.env.NODE_ENV === 'production') {
     transporter = nodemailer.createTransport({
-      host: process.env.OUTLOOK_HOST,
+      host: 'smtp-mail.outlook.com',
       port: 587,
       auth: {
         user: process.env.OUTLOOK_USERNAME,
@@ -26,7 +26,7 @@ const sendEmail = async (email: string, subject: string, message: string) => {
   }
 
   const mailOptions = {
-    from: process.env.OUTLOOK,
+    from: 'thetwiteeapp@outlook.com',
     to: email,
     subject: subject,
     html: message,

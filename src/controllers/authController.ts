@@ -41,6 +41,8 @@ export const signup = catchAsync(async (req: Request, res: Response) => {
     data: { user, token },
   });
 
+  
+
   sendEmail(
     data.raw[0].email,
     'User Confirmation',
