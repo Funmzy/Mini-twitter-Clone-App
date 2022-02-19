@@ -48,24 +48,14 @@ export const deleteTwit = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-// const user = await createQueryBuilder("user")
-//     .leftJoinAndSelect(Photo, "photo", "photo.userId = user.id")
-//     .getMany();
-// const users = 
-//     .getRepository(User)
-//     .createQueryBuilder("user")
-//     .leftJoinAndSelect("user.photos", "photo")
-//     .getMany();
-
-
 export const getAllTwits = catchAsync(async (req: Request, res: Response) => {
   const twits = await getConnection()
-  .getRepository(Twit)
-  .createQueryBuilder('twit')
-  .leftJoinAndSelect("twit.comment", "comment")
-  .leftJoinAndSelect("twit.like", "like")
-  .getMany();
-
+    .getRepository(Twit)
+    .createQueryBuilder('twit')
+    .leftJoinAndSelect('twit.user', 'user')
+    .leftJoinAndSelect('twit.comment', 'comment')
+    .leftJoinAndSelect('twit.like', 'like')
+    .getMany();
 
   res.status(201).json({
     status: 'success',
@@ -106,8 +96,12 @@ export const getTwitCommentLike = catchAsync(async (req: Request, res: Response)
 export const getAllUserTwits = catchAsync(async (req: Request, res: Response) => {
   const twits = await getRepository(Twit)
     .createQueryBuilder('twit')
-    .where('twit.user = :user', { user: req.user.id })
+    .leftJoinAndSelect('twit.user', 'user')
+    .leftJoinAndSelect('twit.comment', 'comment')
+    .leftJoinAndSelect('twit.like', 'like')
+    .where('twit.user = :user', { user: req.params.userId })
     .getMany();
+
 
   res.status(201).json({
     status: 'success',

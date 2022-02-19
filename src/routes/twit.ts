@@ -15,6 +15,6 @@ router.post('/', [validationMiddleware(validateTwit)], postTwit);
 router.delete('/:id', deleteTwit);
 router.get('/:id', getTwitCommentLike);
 router.get('/', getAllTwits);
-router.get('/userTweet', getAllUserTwits);
+router.get('/:userId/user', getAllUserTwits);
 
 export default router;
