@@ -3,6 +3,7 @@ import { Twit } from '../entities/twitEntity';
 import { Comment } from '../entities/commentEntity';
 import { Like } from '../entities/likeEntity';
 import { getConnection, getRepository } from 'typeorm';
+
 import catchAsync from '../utils/catchAsync';
 
 export const postTwit = catchAsync(async (req: Request, res: Response) => {
@@ -47,8 +48,24 @@ export const deleteTwit = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// const user = await createQueryBuilder("user")
+//     .leftJoinAndSelect(Photo, "photo", "photo.userId = user.id")
+//     .getMany();
+// const users = 
+//     .getRepository(User)
+//     .createQueryBuilder("user")
+//     .leftJoinAndSelect("user.photos", "photo")
+//     .getMany();
+
+
 export const getAllTwits = catchAsync(async (req: Request, res: Response) => {
-  const twits = await getRepository(Twit).createQueryBuilder('twit').getMany();
+  const twits = await getConnection()
+  .getRepository(Twit)
+  .createQueryBuilder('twit')
+  .leftJoinAndSelect("twit.comment", "comment")
+  .leftJoinAndSelect("twit.like", "like")
+  .getMany();
+
 
   res.status(201).json({
     status: 'success',
