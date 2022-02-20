@@ -38,10 +38,9 @@ export const signup = catchAsync(async (req: Request, res: Response) => {
   const user = data.raw;
   res.status(201).json({
     status: 'success',
-    data: { user, token },
+    data: { user: user },
+    token,
   });
-
-  
 
   sendEmail(
     data.raw[0].email,
@@ -79,7 +78,8 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
   res.status(201).json({
     status: 'success',
     message: 'login successful',
-    data: { user, token },
+    data: { user: [user] },
+    token,
   });
 });
 
