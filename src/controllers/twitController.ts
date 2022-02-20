@@ -102,7 +102,6 @@ export const getAllUserTwits = catchAsync(async (req: Request, res: Response) =>
     .where('twit.user = :user', { user: req.params.userId })
     .getMany();
 
-
   res.status(201).json({
     status: 'success',
     message: "All User's twits!",

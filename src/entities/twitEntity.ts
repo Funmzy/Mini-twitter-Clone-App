@@ -21,10 +21,10 @@ export class Twit {
   @ManyToOne(() => User, (user) => user.twit)
   user: number;
 
-  @OneToMany(() => Comment, (comment) => comment.twit)
+  @OneToMany(() => Comment, (comment) => comment.twit, {cascade: true})
   comment: Comment[];
 
-  @OneToMany(() => Like, (like) => like.twit)
+  @OneToMany(() => Like, (like) => like.twit, {cascade: true})
   like: Like[];
 
   @CreateDateColumn({

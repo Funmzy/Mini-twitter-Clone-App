@@ -7,7 +7,6 @@ import { Like } from '../entities/likeEntity';
 
 dotenv.config();
 
-
 const pgconfig: ConnectionOptions = {
   type: 'postgres',
   host: process.env.PG_HOST,
@@ -18,7 +17,7 @@ const pgconfig: ConnectionOptions = {
   entities: [User, Twit, Comment, Like],
   migrations: ['migration/*.js'],
   cli: { migrationsDir: 'migration' },
-    ssl: { rejectUnauthorized: false },
+  ssl: { rejectUnauthorized: false },
   // syncronize: true, 'src/entity/*.ts', './build/src/entity/*.js'
 };
 

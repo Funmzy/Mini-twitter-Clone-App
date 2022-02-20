@@ -13,7 +13,7 @@ export class Comment {
   @ManyToOne(() => User, (user) => user)
   user: number;
 
-  @ManyToOne(() => Twit, (twit) => twit)
+  @ManyToOne(() => Twit, (twit) => twit, { onDelete: "CASCADE"})
   twit: number;
 
   @CreateDateColumn({
