@@ -26,4 +26,4 @@
 
 #### Postman link - https://documenter.getpostman.com/view/18372119/UVkjwHsu
 #### Heroku link -  https://twitteeapp.herokuapp.com/
-#### Netlify link - 
+#### Netlify link - https://funmzy-twittee-app.netlify.app
