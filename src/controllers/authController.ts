@@ -42,18 +42,18 @@ export const signup = catchAsync(async (req: Request, res: Response) => {
     token,
   });
 
-  sendEmail(
-    data.raw[0].email,
-    'User Confirmation',
-    `<p>Hello ${data.raw[0].name},</p><p>Thank you for signing up for a Twitee account.
-         Welcome onboard!!!,</p>`,
-  )
-    .then(() => {
-      console.log('email sent');
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  // sendEmail(
+  //   data.raw[0].email,
+  //   'User Confirmation',
+  //   `<p>Hello ${data.raw[0].name},</p><p>Thank you for signing up for a Twitee account.
+  //        Welcome onboard!!!,</p>`,
+  // )
+  //   .then(() => {
+  //     console.log('email sent');
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   });
 });
 
 export const login = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
